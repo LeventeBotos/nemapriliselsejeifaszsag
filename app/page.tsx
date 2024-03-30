@@ -1,113 +1,89 @@
-import Image from 'next/image'
+"use client";
+import { useState, useEffect } from "react";
 
-export default function Home() {
+const AprilPun = () => {
+  const [ipInfo, setIpInfo] = useState<any>(null);
+  const [pun, setPun] = useState("");
+
+  useEffect(() => {
+    const fetchIpInfo = async () => {
+      try {
+        const ipResponse = await fetch("https://api.ipify.org?format=json");
+        const { ip } = await ipResponse.json();
+        const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+        const locationData = await locationResponse.json();
+        setIpInfo(locationData);
+      } catch (error) {
+        console.error("Error fetching IP information:", error);
+      }
+    };
+
+    fetchIpInfo();
+  }, []);
+
+  useEffect(() => {
+    generatePun();
+  }, []);
+
+  const generatePun = () => {
+    const puns = [
+      "Miért mondják az autószerelők április elsején, hogy 'Megvan a kulcs'? Mert becsapódott!",
+      "Miért hajigálja a postás április elsején a leveleket? Mert viccpostán van!",
+      "Miért nem lehet összetörni az áprilisi hidegben elhagyott teáskanalat? Mert fagyos humorral van töltve!",
+      "Miért hívnak április elsején mindig egyetlen gombóc fagylaltra? Mert egyetértően bólint!",
+      "Miért mondják az ápolónők április elsején, hogy 'Nyugodtan vegye be a gyógyszert'? Mert ez a nap úgyis hamis!",
+      "Miért mondja a postás április elsején, hogy 'Nem vagyunk otthon'? Mert ez a legnagyobb levél!",
+      "Miért mondják a fodrászok április elsején, hogy 'Egyenesen vágjunk'? Mert nekik is jár egy kis tréfa!",
+      "Miért állítja a szakács április elsején, hogy 'Fűszeres az élet'? Mert fűszerrel fűszerezve!",
+      "Miért számol a matematikatanár április elsején? Mert fél órás matekóra lesz öt percből!",
+      "Miért mondja az állatorvos április elsején, hogy 'Nem bánt semmit a kis kedvence'? Mert csak tréfál!",
+      "Miért mondják a bankárok április elsején, hogy 'Nem jöhet a pénz'? Mert számlájuk nem nyereséges!",
+      "Miért nem lehet megölni a viccet április elsején? Mert túl nevetéskeltő!",
+      "Miért kér egy süteményt az informatikus április elsején? Mert nagyon szereti a cookie-kat!",
+      "Miért kér ajándékot az angol tanár április elsején? Mert mindig nagyon jó a közönsége!",
+      "Miért mondja a futár április elsején, hogy 'Nincs hová rohanni'? Mert az idő túl gyorsan telik!",
+      "Miért mondja a borbély április elsején, hogy 'Mindenre kész'? Mert a hajvágás egy szikra humor!",
+      "Miért mondja a meteorológus április elsején, hogy 'Napsütés várható'? Mert felhős az előrejelzés!",
+      "Miért mondja a művész április elsején, hogy 'Művészet minden'? Mert az ecset egy szabadalom!",
+      "Miért mondja a pincér április elsején, hogy 'Vacsora szolgálatban'? Mert a főzés a főzésben rejlik!",
+      "Miért mondja a rendőr április elsején, hogy 'Nyugodtan mehet tovább'? Mert a bűn nem bűn!",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * puns.length);
+    setPun(puns[randomIndex]);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className="min-h-screen flex-col gap-3 bg-[#f5f5f5] text-black flex justify-center items-center">
+      <h1>Köszi az adatokat :)!</h1>
+      <div className="max-w-lg w-full bg-white p-8 rounded shadow-md">
+        {ipInfo && (
+          <div>
+            <p>IP Cím: {ipInfo.ip}</p>
+            <p>
+              Földrajzi Szélesség: {ipInfo.latitude}, Földrajzi Hosszúság:{" "}
+              {ipInfo.longitude}
+            </p>
+            <p>
+              Helyzet: {ipInfo.city}, {ipInfo.region}, {ipInfo.country_name}
+            </p>
+          </div>
+        )}
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <h1>Ezért megérdemelsz egy csodás viccet:</h1>
+      <div className="max-w-lg w-full bg-white p-8 rounded shadow-md">
+        <h1 className="text-2xl font-bold mb-4">{pun}</h1>
       </div>
+      <button
+        onClick={generatePun}
+        className="max-w-lg w-full bg-white border-black border-solid border-2 p-4 rounded shadow-md"
+      >
+        Másikat kérek
+      </button>
+      <div className="w-full h-10" />
+      <p className="">Made w ❤️ By Levi</p>
+    </div>
+  );
+};
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default AprilPun;
