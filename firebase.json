@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "nemapriliselsejeivicc",
     "source": ".",
     "ignore": [
       "firebase.json",

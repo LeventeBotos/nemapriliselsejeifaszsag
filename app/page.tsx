@@ -54,7 +54,7 @@ const AprilPun = () => {
   };
 
   return (
-    <div className="min-h-screen flex-col gap-3 bg-[#f5f5f5] text-black flex justify-center items-center">
+    <div className="min-h-screen px-2 flex-col gap-3 bg-[#f5f5f5] text-black flex justify-center items-center">
       <h1>Köszi az adatokat :)!</h1>
       <div className="max-w-lg w-full bg-white p-8 rounded shadow-md">
         {ipInfo && (
